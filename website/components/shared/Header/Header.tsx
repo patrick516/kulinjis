@@ -14,7 +14,7 @@ export default function Header() {
         <div className="text-xs text-gray-500 tracking-widest">The</div>
 
         <h1 className="text-3xl md:text-4xl font-serif text-gray-800">
-          Clan Name
+          Kulinji's
         </h1>
 
         <div className="w-20 h-[2px] bg-[#c7bfa9] mt-2"></div>
