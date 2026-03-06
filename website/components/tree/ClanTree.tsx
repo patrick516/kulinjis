@@ -10,104 +10,74 @@ const ClanTree: React.FC = () => {
 
   return (
     <section
-      className="relative min-h-screen w-full bg-cover bg-center overflow-hidden"
+      className="relative min-h-screen w-full bg-cover bg-center overflow-x-hidden"
       style={{ backgroundImage: "url('/images/landscape.png')" }}
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-stone-900/40 backdrop-blur-[1px]" />
+      {/* Background overlay */}
+      <div className="absolute inset-0 bg-stone-900/50 backdrop-blur-[2px]" />
 
-      {/* Scrollable content */}
-      <div className="relative z-10 flex flex-col items-center py-16 px-4">
-        {/* Section title */}
-        <div className="mb-10 text-center">
+      {/* Scrollable Tree Content */}
+      <div
+        className="
+        relative
+        z-10
+        flex
+        flex-col
+        items-center
+        w-full
+        px-4
+        sm:px-6
+        md:px-10
+        lg:px-16
+        py-16
+      "
+      >
+        {/* Title Section */}
+        <div className="mb-12 text-center max-w-2xl">
           <h2
-            className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-3"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-4"
             style={{ fontFamily: "'Georgia', serif", letterSpacing: "0.04em" }}
           >
             Our Clan Heritage
           </h2>
+
           <div className="flex items-center justify-center gap-4">
-            <div className="w-14 h-[2px] bg-emerald-400 rounded-full" />
-            <span className="text-emerald-300 text-sm tracking-widest uppercase">
+            <div className="w-10 sm:w-14 h-[2px] bg-emerald-400 rounded-full" />
+            <span className="text-emerald-300 text-xs sm:text-sm tracking-widest uppercase">
               Kulinji Family Tree
             </span>
-            <div className="w-14 h-[2px] bg-emerald-400 rounded-full" />
+            <div className="w-10 sm:w-14 h-[2px] bg-emerald-400 rounded-full" />
           </div>
         </div>
 
-        {/* Founder node */}
-        <TreeNode member={founder} index={0} isFounder delay={200} />
+        {/* Tree Container */}
+        <div
+          className="
+          w-full
+          max-w-[1400px]
+          flex
+          flex-col
+          items-center
+        "
+        >
+          {/* Founder */}
+          <div className="flex flex-col items-center mb-6">
+            <TreeNode member={founder} index={0} isFounder delay={200} />
 
-        {/* Descendants */}
-        <TreeBranch
-          members={clanMembers}
-          parentId={founder.id}
-          startIndex={1}
-        />
+            {/* Main trunk line */}
+            <div className="w-[2px] h-10 bg-emerald-400/60 rounded-full mt-2" />
+          </div>
+
+          {/* Descendants */}
+          <TreeBranch
+            members={clanMembers}
+            parentId={founder.id}
+            startIndex={1}
+          />
+        </div>
       </div>
 
       {/* Animations */}
-      <style jsx global>{`
-        @keyframes pingOnce {
-          0% {
-            transform: translate(-50%, -50%) scale(0.5);
-            opacity: 0.8;
-          }
-          70% {
-            transform: translate(-50%, -50%) scale(2.5);
-            opacity: 0.2;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(3);
-            opacity: 0;
-          }
-        }
-        @keyframes pingOnceFounder {
-          0% {
-            transform: translate(-50%, -50%) scale(0.5);
-            opacity: 1;
-          }
-          60% {
-            transform: translate(-50%, -50%) scale(3);
-            opacity: 0.3;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(4);
-            opacity: 0;
-          }
-        }
-        @keyframes slideUpFade {
-          0% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-        .animate-ping-once {
-          animation: pingOnce 0.9s ease-out forwards;
-        }
-        .animate-ping-once-founder {
-          animation: pingOnceFounder 1.2s ease-out forwards;
-        }
-        .animate-slide-up-fade {
-          animation: slideUpFade 0.7s ease forwards;
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 2s infinite;
-        }
-      `}</style>
     </section>
   );
 };

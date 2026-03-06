@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import Hero from "../components/sections/Hero";
 import ClanTree from "../components/tree/ClanTree";
 

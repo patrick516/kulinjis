@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ClanMember } from "../../data/clanMembers";
 import Image from "next/image";
 
@@ -19,28 +19,45 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [splashed, setSplashed] = useState(false);
+
+  const nodeRef = useRef<HTMLDivElement>(null);
   const isLeft = index % 2 === 0;
 
   useEffect(() => {
-    const t1 = setTimeout(() => setVisible(true), delay);
-    const t2 = setTimeout(() => setSplashed(true), delay + 400);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [delay]);
+    const element = nodeRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !visible) {
+            setTimeout(() => setVisible(true), delay);
+            setTimeout(() => setSplashed(true), delay + 400);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [delay, visible]);
 
   return (
     <div
+      ref={nodeRef}
       className={`
         relative flex flex-col items-center text-center
         transition-all duration-700 ease-out
+        w-full max-w-[160px] sm:max-w-[180px] md:max-w-[220px]
+
         ${
           visible
             ? "opacity-100 translate-y-0 scale-100 animate-slide-up-fade"
             : isLeft
-              ? "opacity-0 -translate-x-24 scale-75"
-              : "opacity-0 translate-x-24 scale-75"
+              ? "opacity-0 -translate-x-20 scale-75"
+              : "opacity-0 translate-x-20 scale-75"
         }
       `}
     >
@@ -54,8 +71,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({
             background: isFounder
               ? "radial-gradient(circle, rgba(16,185,129,0.35) 0%, transparent 70%)"
               : "radial-gradient(circle, rgba(120,160,100,0.25) 0%, transparent 70%)",
-            width: isFounder ? 160 : 120,
-            height: isFounder ? 160 : 120,
+            width: isFounder ? 140 : 110,
+            height: isFounder ? 140 : 110,
             top: "50%",
             left: "50%",
             transform: "translate(-50%,-50%)",
@@ -68,34 +85,45 @@ const TreeNode: React.FC<TreeNodeProps> = ({
       <div
         className={`
           relative z-10 flex flex-col items-center
+          w-full
+
           ${
             isFounder
-              ? "bg-white/90 border-2 border-emerald-500 shadow-emerald-200 shadow-xl rounded-2xl px-8 py-6"
-              : "bg-white/85 border border-emerald-300/60 shadow-lg rounded-xl px-5 py-4"
+              ? "bg-white/90 border-2 border-emerald-500 shadow-xl rounded-2xl px-5 py-4 sm:px-6 sm:py-5"
+              : "bg-white/85 border border-emerald-300/60 shadow-lg rounded-xl px-4 py-3"
           }
+
           backdrop-blur-sm
         `}
       >
         {/* Avatar */}
         <div
-          className={`relative mb-3 ${isFounder ? "w-24 h-24" : "w-16 h-16"}`}
+          className={`
+            relative mb-2
+            ${isFounder ? "w-20 h-20 sm:w-24 sm:h-24" : "w-14 h-14 sm:w-16 sm:h-16"}
+          `}
         >
           <div
-            className={`absolute inset-0 rounded-full ${
-              isFounder
-                ? "ring-4 ring-emerald-400 ring-offset-2"
-                : "ring-2 ring-emerald-300 ring-offset-1"
-            }`}
+            className={`
+              absolute inset-0 rounded-full
+              ${
+                isFounder
+                  ? "ring-4 ring-emerald-400 ring-offset-2"
+                  : "ring-2 ring-emerald-300 ring-offset-1"
+              }
+            `}
           />
+
           <Image
             src="/images/profile.png"
             alt={member.name}
-            width={isFounder ? 96 : 64}
-            height={isFounder ? 96 : 64}
+            width={96}
+            height={96}
             className="rounded-full object-cover w-full h-full"
           />
+
           {isFounder && splashed && (
-            <span className="absolute -bottom-1 -right-1 text-xl animate-bounce-slow">
+            <span className="absolute -bottom-1 -right-1 text-lg sm:text-xl animate-bounce-slow">
               😊
             </span>
           )}
@@ -103,9 +131,10 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 
         {/* Name */}
         <div
-          className={`font-bold text-stone-800 leading-tight ${
-            isFounder ? "text-xl mb-1" : "text-sm mb-0.5"
-          }`}
+          className={`
+            font-bold text-stone-800 leading-tight text-center
+            ${isFounder ? "text-base sm:text-lg mb-1" : "text-xs sm:text-sm"}
+          `}
           style={{ fontFamily: "'Georgia', serif" }}
         >
           {member.name}
@@ -113,13 +142,13 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 
         {/* Founder label */}
         {isFounder && (
-          <div className="text-emerald-700 font-semibold text-xs tracking-widest uppercase mb-1 mt-0.5">
+          <div className="text-emerald-700 font-semibold text-[10px] sm:text-xs tracking-widest uppercase mb-1">
             Founder of Kulinji&apos;s Generation
           </div>
         )}
 
         {/* Dates */}
-        <div className="text-xs text-stone-500 font-light">
+        <div className="text-[10px] sm:text-xs text-stone-500 font-light">
           {member.birthYear ? `b. ${member.birthYear}` : ""}
           {member.deathYear ? ` – d. ${member.deathYear}` : ""}
         </div>
