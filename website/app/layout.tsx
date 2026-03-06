@@ -1,6 +1,7 @@
 import "./globals.css";
 import { SearchProvider } from "@/store/SearchContext";
 import Header from "../components/shared/Header/Header";
+import Footer from "../components/shared/Footer/Footer";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -20,6 +21,7 @@ export default function RootLayout({
         <SearchProvider>
           <Header />
           {children}
+          <Footer />
         </SearchProvider>
       </body>
     </html>
