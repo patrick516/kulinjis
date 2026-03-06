@@ -1,4 +1,5 @@
 import "./globals.css";
+import { SearchProvider } from "@/store/SearchContext";
 import Header from "../components/shared/Header/Header";
 import { Inter } from "next/font/google";
 
@@ -16,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        {children}
+        <SearchProvider>
+          <Header />
+          {children}
+        </SearchProvider>
       </body>
     </html>
   );

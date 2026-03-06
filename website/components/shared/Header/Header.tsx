@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import GlobalSearch from "@/components/common/GlobalSearch";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,16 +13,19 @@ export default function Header() {
       {/* Top Branding */}
       <div className="flex flex-col items-center py-4">
         <div className="text-xs text-gray-500 tracking-widest">The</div>
-
         <h1 className="text-3xl md:text-4xl font-serif text-gray-800">
           Kulinji's
         </h1>
 
+        {/* Global Search */}
+        <GlobalSearch />
+
+        {/* Decorative underline */}
         <div className="w-20 h-[2px] bg-[#c7bfa9] mt-2"></div>
       </div>
 
       {/* Navigation Row */}
-      <div className="flex items-center justify-between px-4 md:px-10 py-3 border-t border-[#e5e0d5]">
+      <div className="flex items-center justify-between px-4 md:px-10 py-3 border-t border-[#e5e0d5] relative">
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-8 text-gray-700 font-medium">
           <Link href="/" className="hover:text-green-700 transition">
@@ -41,19 +45,19 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Search */}
-        <div className="flex items-center bg-white border rounded-md px-3 py-1 shadow-sm">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="outline-none text-sm bg-transparent w-24 md:w-40"
-          />
-          <Search className="w-4 h-4 text-gray-500 ml-2" />
+        {/* Replace old search with something new */}
+        <div className="hidden md:flex items-center gap-2">
+          <button className="px-4 py-2 bg-emerald-600 text-white font-medium rounded-full shadow-md hover:bg-emerald-700 transition">
+            Explore the Clan
+          </button>
+          <span className="italic text-gray-500 text-sm hidden lg:inline">
+            Discover heritage, history & memories
+          </span>
         </div>
 
         {/* Hamburger Button */}
         <button
-          className="md:hidden ml-3"
+          className="md:hidden absolute left-1/2 transform -translate-x-1/2"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? (

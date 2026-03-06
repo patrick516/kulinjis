@@ -1,7 +1,9 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { ClanMember } from "../../data/clanMembers";
 import Image from "next/image";
+import { useSearch } from "../../store/SearchContext";
 
 interface TreeNodeProps {
   member: ClanMember;
@@ -22,9 +24,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [splashed, setSplashed] = useState(false);
-
   const nodeRef = useRef<HTMLDivElement>(null);
   const isLeft = index % 2 === 0;
+  const { searchQuery } = useSearch();
 
   useEffect(() => {
     const element = nodeRef.current;
@@ -43,9 +45,23 @@ const TreeNode: React.FC<TreeNodeProps> = ({
     );
 
     observer.observe(element);
-
     return () => observer.disconnect();
   }, [delay, visible]);
+
+  // Highlight search term in name
+  const highlightName = (name: string) => {
+    if (!searchQuery) return name;
+    const regex = new RegExp(`(${searchQuery})`, "gi");
+    return name.split(regex).map((part, idx) =>
+      regex.test(part) ? (
+        <span key={idx} className="bg-yellow-200">
+          {part}
+        </span>
+      ) : (
+        part
+      ),
+    );
+  };
 
   return (
     <div
@@ -101,10 +117,18 @@ const TreeNode: React.FC<TreeNodeProps> = ({
       >
         {/* Avatar */}
         <div
-          className={`relative mb-2 ${isFounder ? "w-20 h-20 sm:w-24 sm:h-24" : "w-14 h-14 sm:w-16 sm:h-16"}`}
+          className={`relative mb-2 ${
+            isFounder
+              ? "w-20 h-20 sm:w-24 sm:h-24"
+              : "w-14 h-14 sm:w-16 sm:h-16"
+          }`}
         >
           <div
-            className={`absolute inset-0 rounded-full ${isFounder ? "ring-4 ring-emerald-400 ring-offset-2" : "ring-2 ring-emerald-300 ring-offset-1"}`}
+            className={`absolute inset-0 rounded-full ${
+              isFounder
+                ? "ring-4 ring-emerald-400 ring-offset-2"
+                : "ring-2 ring-emerald-300 ring-offset-1"
+            }`}
           />
           <Image
             src="/images/profile.png"
@@ -125,7 +149,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
           className="font-bold text-stone-800 leading-tight text-center"
           style={{ fontFamily: "'Georgia', serif" }}
         >
-          {member.name}
+          {highlightName(member.name)}
         </div>
 
         {isFounder && (
