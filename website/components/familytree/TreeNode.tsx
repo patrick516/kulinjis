@@ -16,7 +16,6 @@ interface TreeNodeProps {
   generation?: number;
 }
 
-// Generation color system
 export const GENERATION_COLORS: Record<
   number,
   {
@@ -124,7 +123,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   onToggle,
   expanded = false,
   hasChildren = false,
-  generation = 0,
+  generation = 1, // FIX 1: was 0
 }) => {
   const [visible, setVisible] = useState(false);
   const [splashed, setSplashed] = useState(false);
@@ -132,7 +131,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   const nodeRef = useRef<HTMLDivElement>(null);
   const isLeft = index % 2 === 0;
   const { searchQuery } = useSearch();
-  const colors = getGenColor(generation);
+
+  // FIX 2: only real founder gets generation 0 colors
+  const colors = getGenColor(isFounder ? 0 : Math.max(generation, 1));
 
   useEffect(() => {
     const element = nodeRef.current;
@@ -193,7 +194,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
       `}
       onClick={handleClick}
     >
-      {/* Generation label badge — floats above card */}
+      {/* Generation label badge */}
       {visible && (
         <div
           className={`
@@ -204,7 +205,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({
             whitespace-nowrap
           `}
         >
-          {GEN_LABELS[Math.min(generation, 4)]}
+          {/* FIX 3: badge text driven by isFounder flag */}
+          {isFounder ? "Founder" : GEN_LABELS[Math.min(generation, 4)]}
         </div>
       )}
 

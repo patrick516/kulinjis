@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import { clanMembers } from "../../data/clanMembers";
-import TreeNode from "./TreeNode";
+import TreeNode, { getGenColor, GEN_LABELS } from "./TreeNode";
 import TreeBranch from "./TreeBranch";
 import { useSearch } from "../../store/SearchContext";
 
 const ClanTree: React.FC = () => {
   const rootMembers = clanMembers.filter((m) => !m.parentId);
-  const founder = rootMembers[0];
+  const founder = rootMembers[0]; // only id=1 Fabrany Kulinji
   const { searchQuery } = useSearch();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -37,6 +37,16 @@ const ClanTree: React.FC = () => {
       }),
     ) + 1;
 
+  // Generation color legend entries
+  const legendEntries = Array.from(
+    { length: Math.min(generations, 5) },
+    (_, i) => ({
+      gen: i,
+      label: i === 0 ? "Founder" : (GEN_LABELS[i] ?? `Gen ${i}`),
+      colors: getGenColor(i),
+    }),
+  );
+
   return (
     <section
       id="clan-tree"
@@ -61,7 +71,7 @@ const ClanTree: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-10 sm:w-14 h-[2px] bg-emerald-400 rounded-full" />
             <span className="text-stone-300 text-sm italic">
-              Click any member to see their details
+              Click any member to expand their descendants
             </span>
             <div className="w-10 sm:w-14 h-[2px] bg-emerald-400 rounded-full" />
           </div>
@@ -137,8 +147,13 @@ const ClanTree: React.FC = () => {
               <TreeNode
                 member={filteredFounder}
                 index={0}
-                isFounder
+                // only true when this IS the actual founder (id === founder.id)
+                isFounder={filteredFounder.id === founder.id}
+                generation={0}
                 delay={200}
+                hasChildren={clanMembers.some(
+                  (m) => m.parentId === filteredFounder.id,
+                )}
                 onToggle={(id) => setSelectedId(selectedId === id ? null : id)}
                 expanded={selectedId === filteredFounder.id}
               />
@@ -147,23 +162,32 @@ const ClanTree: React.FC = () => {
               members={filteredMembers}
               parentId={filteredFounder.id}
               startIndex={1}
+              depth={0}
+              generation={1}
             />
           </div>
         )}
 
-        {/* Legend */}
-        <div className="mt-16 flex items-center gap-6 text-xs text-stone-400">
-          <div className="flex items-center gap-2">
+        {/* Generation color legend */}
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+          {legendEntries.map(({ gen, label, colors }) => (
+            <div
+              key={gen}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10"
+            >
+              <div
+                className={`w-3 h-3 rounded-full border-2 ${colors.border} ${colors.bg}`}
+              />
+              <span className="text-[10px] text-stone-300 font-medium">
+                {label}
+              </span>
+            </div>
+          ))}
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
             <div className="w-8 h-[2px] bg-emerald-400 rounded-full" />
-            <span>Family connection</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full border-2 border-emerald-500 bg-white/10" />
-            <span>Founder</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full border border-emerald-300/60 bg-white/10" />
-            <span>Member</span>
+            <span className="text-[10px] text-stone-300 font-medium">
+              Connection
+            </span>
           </div>
         </div>
       </div>
