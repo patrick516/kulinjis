@@ -1,13 +1,14 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { ClanMember } from "../../data/clanMembers";
-import TreeNode from "./TreeNode";
+import { FullClanMember as ClanMember } from "@/data/fullClanMembers";
+import TreeNode, { getGenColor } from "./TreeNode";
 
 interface TreeBranchProps {
   members: ClanMember[];
   parentId?: number;
   startIndex?: number;
   depth?: number;
+  generation?: number;
 }
 
 const TreeBranch: React.FC<TreeBranchProps> = ({
@@ -15,12 +16,15 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
   parentId,
   startIndex = 1,
   depth = 0,
+  generation = 1,
 }) => {
   const children = members.filter((m) => m.parentId === parentId);
   const containerRef = useRef<HTMLDivElement>(null);
   const [paths, setPaths] = useState<string[]>([]);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  const colors = getGenColor(generation);
 
   const handleToggle = (id: number) => {
     setExpandedId(expandedId === id ? null : id);
@@ -75,47 +79,51 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
   if (children.length === 0) return null;
 
   const SVG_HEIGHT = depth === 0 ? 80 : 64;
+  const gradId = `lineGrad-${depth}-${parentId}-${generation}`;
 
   return (
     <div
       ref={containerRef}
       className="relative flex flex-col items-center w-full"
     >
-      {/* Connector Lines */}
+      {/* Connector Lines — color matches this generation */}
       <svg
         className="absolute top-0 left-0 w-full pointer-events-none"
         style={{ height: SVG_HEIGHT, overflow: "visible" }}
       >
         <defs>
-          <linearGradient
-            id={`lineGrad-${depth}-${parentId}`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#6ee7b7" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#34d399" stopOpacity="0.4" />
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop
+              offset="0%"
+              stopColor={colors.connectorGradientStart}
+              stopOpacity="0.9"
+            />
+            <stop
+              offset="100%"
+              stopColor={colors.connectorGradientEnd}
+              stopOpacity="0.5"
+            />
           </linearGradient>
         </defs>
 
         {paths.map((d, i) => (
           <g key={i}>
+            {/* Soft glow shadow */}
             <path
               d={d}
               fill="none"
-              stroke="#059669"
-              strokeWidth={3}
-              strokeOpacity={0.15}
+              stroke={colors.connectorColor}
+              strokeWidth={4}
+              strokeOpacity={0.12}
               strokeLinecap="round"
             />
+            {/* Main line */}
             <path
               d={d}
               fill="none"
-              stroke={`url(#lineGrad-${depth}-${parentId})`}
-              strokeWidth={1.8}
+              stroke={`url(#${gradId})`}
+              strokeWidth={2}
               strokeLinecap="round"
-              style={{ filter: "drop-shadow(0 0 3px rgba(52,211,153,0.4))" }}
             />
           </g>
         ))}
@@ -127,8 +135,9 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
       <div className="flex flex-wrap justify-center gap-x-8 gap-y-6 w-full">
         {children.map((child, idx) => {
           const globalIndex = startIndex + idx;
-          const delay = globalIndex * 600;
+          const delay = idx * 80; // fast stagger
           const showChildren = expandedId === child.id;
+          const childHasChildren = members.some((m) => m.parentId === child.id);
 
           return (
             <div
@@ -144,6 +153,8 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
                 delay={delay}
                 expanded={showChildren}
                 onToggle={handleToggle}
+                hasChildren={childHasChildren}
+                generation={generation}
               />
               {showChildren && (
                 <TreeBranch
@@ -151,6 +162,7 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
                   parentId={child.id}
                   startIndex={globalIndex + 1}
                   depth={depth + 1}
+                  generation={generation + 1}
                 />
               )}
             </div>

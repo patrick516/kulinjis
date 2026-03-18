@@ -3,8 +3,11 @@ export interface ClanMember {
   name: string;
   birthYear?: number;
   deathYear?: number;
-  photo?: string; // file name in public/images
-  parentId?: number; // reference to parent
+  photo?: string;
+  parentId?: number;
+  spouse?: string;
+  origin?: string;
+  notes?: string;
 }
 
 export const clanMembers: ClanMember[] = [
