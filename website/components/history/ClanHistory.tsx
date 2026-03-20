@@ -20,10 +20,6 @@ interface RowProps {
   value: string;
 }
 
-interface ListProps {
-  items: string[];
-}
-
 const Section = ({ title, children }: SectionProps) => (
   <div style={{ marginBottom: "2rem" }}>
     <h2
@@ -105,21 +101,41 @@ const Row = ({ label, value }: RowProps) => (
   </p>
 );
 
-const List = ({ items }: ListProps) => (
-  <ul
+// Reusable nested sub-card (dashed border, cream bg)
+const SubCard = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <div
     style={{
-      margin: "0.4rem 0 0 1rem",
-      padding: 0,
-      fontSize: "0.88rem",
-      color: "#04342C",
+      background: "#fdfaf6",
+      border: "1px dashed #9FE1CB",
+      borderRadius: "8px",
+      padding: "0.6rem 0.8rem",
+      marginBottom: "0.5rem",
     }}
   >
-    {items.map((item, i) => (
-      <li key={i} style={{ marginBottom: "0.2rem" }}>
-        {item}
-      </li>
-    ))}
-  </ul>
+    <p
+      style={{
+        fontWeight: 500,
+        color: "#085041",
+        fontSize: "0.88rem",
+        marginBottom: "0.3rem",
+      }}
+    >
+      {title}
+    </p>
+    {children}
+  </div>
+);
+
+const Sub = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ fontSize: "0.82rem", color: "#04342C", margin: "0.15rem 0" }}>
+    {children}
+  </p>
 );
 
 export default function ClanHistory() {
@@ -133,7 +149,7 @@ export default function ClanHistory() {
       }}
     >
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        {/* Header */}
+        {/* ── Header ─────────────────────────────────────────────────────── */}
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <h1
             style={{
@@ -158,7 +174,7 @@ export default function ClanHistory() {
           />
         </div>
 
-        {/* Origin */}
+        {/* ── Origin ─────────────────────────────────────────────────────── */}
         <Section title="Origin of the Tribe">
           <p style={{ fontSize: "0.93rem", color: "#04342C", lineHeight: 1.7 }}>
             The Kulinji tribe originated from <em>Mozambique</em>. Three Kulinji
@@ -239,7 +255,7 @@ export default function ClanHistory() {
           </div>
         </Section>
 
-        {/* February Kulinji */}
+        {/* ── February Kulinji ───────────────────────────────────────────── */}
         <Section title="February Kulinji — Children & Descendants">
           <p
             style={{
@@ -278,7 +294,7 @@ export default function ClanHistory() {
           </PersonCard>
         </Section>
 
-        {/* Thomson Kulinji */}
+        {/* ── Thomson Kulinji ────────────────────────────────────────────── */}
         <Section title="Thomson Kulinji — Children & Descendants">
           <p
             style={{
@@ -291,12 +307,8 @@ export default function ClanHistory() {
             Agness.
           </p>
 
-          <PersonCard
-            name="Mayilosi"
-            detail="Multiple wives"
-            accent="#E1F5EE"
-            border="#5DCAA5"
-          >
+          {/* Mayilosi */}
+          <PersonCard name="Mayilosi" detail="Multiple wives">
             <p
               style={{
                 fontSize: "0.85rem",
@@ -319,234 +331,155 @@ export default function ClanHistory() {
             </p>
 
             {/* Harry */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Harry
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 1 (Matalia): Chrisy, Stevelia, Falesi
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 2: Agness
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 3 (from Mulanje): Thomson
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 4 (from Lilongwe): Ndiuzayani
-              </p>
-              <p
-                style={{
-                  fontSize: "0.82rem",
-                  color: "#04342C",
-                  marginTop: "0.3rem",
-                }}
-              >
+            <SubCard title="Harry">
+              <Sub>Wife 1 (Matalia): Chrisy, Stevelia, Falesi</Sub>
+              <Sub>Wife 2: Agness</Sub>
+              <Sub>Wife 3 (from Mulanje): Thomson</Sub>
+              <Sub>Wife 4 (from Lilongwe): Ndiuzayani</Sub>
+              <Sub>
                 <em>Matalia married Chingaphonyg:</em> Esinala (died), Lenard,
                 Charmaine (Alex), Robin, Fatima (died young), Edina (Police
                 Super)
-              </p>
-            </div>
+              </Sub>
+            </SubCard>
 
             {/* Paul */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Paul
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
+            <SubCard title="Paul">
+              <Sub>
                 Wife 1 (Mary): Maguleti, Vayleti, Towera, Pilirani, Maloto,
                 Ndaona, Jamikani, Lonjezo
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 2 (Felister): Mabvuto, Regina, Innocent
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Wife 3 (name unknown): Stewart, Chrissy
-              </p>
+              </Sub>
+              <Sub>Wife 2 (Felister): Mabvuto, Regina, Innocent</Sub>
+              <Sub>Wife 3 (name unknown): Stewart, Chrissy</Sub>
               <div
                 style={{
-                  marginTop: "0.5rem",
+                  marginTop: "0.4rem",
                   fontSize: "0.8rem",
                   color: "#0F6E56",
                 }}
               >
-                <p style={{ margin: "0.15rem 0" }}>Maguleti → James</p>
-                <p style={{ margin: "0.15rem 0" }}>
+                <p style={{ margin: "0.1rem 0" }}>Maguleti → James</p>
+                <p style={{ margin: "0.1rem 0" }}>
                   Vayleti → Faith, Junior (Patrice)
                 </p>
-                <p style={{ margin: "0.15rem 0" }}>
-                  Towela → Ongani, Diana, Kenneth
+                <p style={{ margin: "0.1rem 0" }}>
+                  Towera → Ongani, Diana, Kenneth
                 </p>
-                <p style={{ margin: "0.15rem 0" }}>Pilirani → Leah</p>
-                <p style={{ margin: "0.15rem 0" }}>Maloto → Tadala, Mayamiko</p>
-                <p style={{ margin: "0.15rem 0" }}>Ndaona → Wezi, Shamim</p>
-                <p style={{ margin: "0.15rem 0" }}>
+                <p style={{ margin: "0.1rem 0" }}>Pilirani → Leah</p>
+                <p style={{ margin: "0.1rem 0" }}>Maloto → Tadala, Mayamiko</p>
+                <p style={{ margin: "0.1rem 0" }}>Ndaona → Wezi, Shamim</p>
+                <p style={{ margin: "0.1rem 0" }}>
                   Jamikani → Kelvin, Jarcho, Chipiliro
                 </p>
-                <p style={{ margin: "0.15rem 0" }}>Lonjezo → Nthouzi</p>
-                <p style={{ margin: "0.15rem 0" }}>Paul → Shoni, Faith</p>
+                <p style={{ margin: "0.1rem 0" }}>Lonjezo → Nthouzi</p>
+                <p style={{ margin: "0.1rem 0" }}>Paul → Shoni, Faith</p>
               </div>
-            </div>
+            </SubCard>
 
             {/* Fostino */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Fostino
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Telezia → Chimwemwe, Chikondi
-                <br />
-                Mania → Fostino, Eliza, Chikumbukutso
-                <br />
+            <SubCard title="Fostino">
+              <Sub>Telezia → Chimwemwe, Chikondi</Sub>
+              <Sub>Mania → Fostino, Eliza, Chikumbukutso</Sub>
+              <Sub>
                 Steliya → Chrissy, Catherine, Ivy, Mwayiwalo, Hamanson, Faith
-              </p>
-              <p
-                style={{
-                  fontSize: "0.82rem",
-                  color: "#0F6E56",
-                  marginTop: "0.3rem",
-                }}
-              >
-                Second wife: Nkonkha
-              </p>
-            </div>
+              </Sub>
+              <Sub>
+                <span style={{ color: "#0F6E56" }}>Second wife: Nkonkha</span>
+              </Sub>
+            </SubCard>
 
             {/* Doliya */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Doliya
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Husband: Kamwingo — lives in Thyolo, Khonjeni
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Children: Gomola, Pilirani
-              </p>
-            </div>
+            <SubCard title="Doliya">
+              <Sub>Husband: Kamwingo — lives in Thyolo, Khonjeni</Sub>
+              <Sub>Children: Gomola, Pilirani</Sub>
+            </SubCard>
 
             {/* Falumesi */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Falumesi
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Husband: Chipolopolo
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                Child: Jana — currently at Bangula
-              </p>
-            </div>
+            <SubCard title="Falumesi">
+              <Sub>Husband: Chipolopolo</Sub>
+              <Sub>Child: Jana — currently at Bangula</Sub>
+            </SubCard>
 
             {/* Lucy (Mataka) */}
-            <div
-              style={{
-                background: "#fdfaf6",
-                border: "1px dashed #9FE1CB",
-                borderRadius: "8px",
-                padding: "0.6rem 0.8rem",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: 500,
-                  color: "#085041",
-                  fontSize: "0.88rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                Lucy (Mataka) — second wife's child
-              </p>
-              <p style={{ fontSize: "0.82rem", color: "#04342C" }}>
-                1. Samuel (died) &nbsp; 2. Chabuka &nbsp; 3. Malia
-                <br />
-                4. Ndariona (Christo) &nbsp; 5. Samuel &nbsp; 6. Aubrey
-              </p>
-            </div>
+            <SubCard title="Lucy (Mataka) — second wife's child">
+              <Sub>1. Samuel (died) &nbsp; 2. Chabuka &nbsp; 3. Malia</Sub>
+              <Sub>4. Ndariona (Christo) &nbsp; 5. Samuel &nbsp; 6. Aubrey</Sub>
+            </SubCard>
           </PersonCard>
 
-          <PersonCard name="Lice" detail="No details recorded" />
+          {/* Lice */}
+          <PersonCard name="Lice" detail="2 children">
+            <Row label="Children" value="Kulima, Steveliya" />
+          </PersonCard>
+
           <PersonCard name="Falesi" detail="No details recorded" />
-          <PersonCard name="Offesi" detail="No details recorded" />
+
+          {/* Offesi */}
+          <PersonCard name="Offesi Kulinji" detail="10 children">
+            <SubCard title="Hastings">
+              <Sub>Child: Patricia (currently in Lilongwe)</Sub>
+            </SubCard>
+
+            <SubCard title="Christina">
+              <Sub>No details recorded</Sub>
+            </SubCard>
+
+            <SubCard title="Evason">
+              <Sub>No details recorded</Sub>
+            </SubCard>
+
+            <SubCard title="Lingstone">
+              <Sub>
+                Children: Thomson, James, Patrick, Gloria, Catherine, Ndaona
+              </Sub>
+              <div
+                style={{
+                  marginTop: "0.4rem",
+                  fontSize: "0.8rem",
+                  color: "#0F6E56",
+                }}
+              >
+                <p style={{ margin: "0.1rem 0" }}>James → Elijah, Beatrice</p>
+                <p style={{ margin: "0.1rem 0" }}>
+                  Gloria → Shanilla (Shakinah)
+                </p>
+                <p style={{ margin: "0.1rem 0" }}>Catherine → Precious</p>
+                <p style={{ margin: "0.1rem 0" }}>
+                  Thomson → children to be added
+                </p>
+              </div>
+            </SubCard>
+
+            <SubCard title="Patrick">
+              <Sub>Sons: Yamikani, Paul, Hastings (died young)</Sub>
+            </SubCard>
+
+            <SubCard title="Rozi">
+              <Sub>Died while young</Sub>
+            </SubCard>
+
+            <SubCard title="Charles">
+              <Sub>Son: Yohani (Fakeni)</Sub>
+            </SubCard>
+
+            <SubCard title="Patricia">
+              <Sub>No details recorded</Sub>
+            </SubCard>
+
+            <SubCard title="Kulinji">
+              <Sub>No details recorded</Sub>
+            </SubCard>
+
+            <SubCard title="Lidia">
+              <Sub>No details recorded</Sub>
+            </SubCard>
+          </PersonCard>
+
           <PersonCard name="Martha" detail="No details recorded" />
           <PersonCard name="Agness" detail="No details recorded" />
         </Section>
 
-        {/* Migration */}
+        {/* ── Migration ──────────────────────────────────────────────────── */}
         <Section title="Migration Pattern">
           <ol
             style={{
@@ -563,10 +496,11 @@ export default function ClanHistory() {
             </li>
             <li>Later settled in Ngona village</li>
             <li>Some descendants migrated to Zimbabwe</li>
+            <li>Patricia (Hastings&apos;s daughter) currently in Lilongwe</li>
           </ol>
         </Section>
 
-        {/* Footer */}
+        {/* ── Footer ─────────────────────────────────────────────────────── */}
         <div
           style={{
             textAlign: "center",
