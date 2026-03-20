@@ -1,4 +1,5 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import { useAuth } from "@/state/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000";
@@ -47,9 +48,7 @@ export function MessagesPage() {
         setReplyText(json.data[0].replyText ?? "");
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to load messages",
-      );
+      setError(err instanceof Error ? err.message : "Failed to load messages");
     } finally {
       setLoading(false);
     }
@@ -141,9 +140,7 @@ export function MessagesPage() {
             )}
           </div>
           {messages.length === 0 && !loading && (
-            <p className="px-3 py-2 text-xs text-slate-500">
-              No messages yet.
-            </p>
+            <p className="px-3 py-2 text-xs text-slate-500">No messages yet.</p>
           )}
           <ul className="divide-y divide-slate-100 text-sm">
             {messages.map((msg) => {
@@ -253,4 +250,3 @@ export function MessagesPage() {
     </div>
   );
 }
-

@@ -6,13 +6,14 @@ import { DashboardPage } from "@/pages/dashboard";
 import { GalleryPage } from "@/pages/gallery";
 import { MessagesPage } from "@/pages/messages";
 import { MainLayout } from "@/layouts/MainLayout";
+import type { ReactNode } from "react";
 
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-  return children;
+  return <>{children}</>; // wrap ReactNode in fragment
 }
 
 export function AppRoutes() {
@@ -42,4 +43,3 @@ export function AppRoutes() {
     </Routes>
   );
 }
-
