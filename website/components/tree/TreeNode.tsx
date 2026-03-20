@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { ClanMember } from "../../data/clanMembers";
 import Image from "next/image";
@@ -8,8 +9,6 @@ interface TreeNodeProps {
   index?: number;
   isFounder?: boolean;
   delay?: number;
-  onToggle?: (id: number) => void;
-  expanded?: boolean;
 }
 
 const TreeNode: React.FC<TreeNodeProps> = ({
@@ -17,8 +16,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
   index = 0,
   isFounder = false,
   delay = 0,
-  onToggle,
-  expanded = false,
 }) => {
   const [visible, setVisible] = useState(false);
   const [splashed, setSplashed] = useState(false);
@@ -53,8 +50,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({
       className={`
         relative flex flex-col items-center text-center
         transition-all duration-700 ease-out
-        cursor-pointer
         w-full max-w-[160px] sm:max-w-[180px] md:max-w-[220px]
+
         ${
           visible
             ? "opacity-100 translate-y-0 scale-100 animate-slide-up-fade"
@@ -63,7 +60,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
               : "opacity-0 translate-x-20 scale-75"
         }
       `}
-      onClick={() => onToggle && onToggle(member.id)}
     >
       {/* Splash ring */}
       {splashed && (
@@ -90,22 +86,34 @@ const TreeNode: React.FC<TreeNodeProps> = ({
         className={`
           relative z-10 flex flex-col items-center
           w-full
+
           ${
             isFounder
               ? "bg-white/90 border-2 border-emerald-500 shadow-xl rounded-2xl px-5 py-4 sm:px-6 sm:py-5"
               : "bg-white/85 border border-emerald-300/60 shadow-lg rounded-xl px-4 py-3"
           }
+
           backdrop-blur-sm
-          ${expanded ? "ring-2 ring-emerald-400" : ""}
         `}
       >
         {/* Avatar */}
         <div
-          className={`relative mb-2 ${isFounder ? "w-20 h-20 sm:w-24 sm:h-24" : "w-14 h-14 sm:w-16 sm:h-16"}`}
+          className={`
+            relative mb-2
+            ${isFounder ? "w-20 h-20 sm:w-24 sm:h-24" : "w-14 h-14 sm:w-16 sm:h-16"}
+          `}
         >
           <div
-            className={`absolute inset-0 rounded-full ${isFounder ? "ring-4 ring-emerald-400 ring-offset-2" : "ring-2 ring-emerald-300 ring-offset-1"}`}
+            className={`
+              absolute inset-0 rounded-full
+              ${
+                isFounder
+                  ? "ring-4 ring-emerald-400 ring-offset-2"
+                  : "ring-2 ring-emerald-300 ring-offset-1"
+              }
+            `}
           />
+
           <Image
             src="/images/profile.png"
             alt={member.name}
@@ -113,6 +121,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
             height={96}
             className="rounded-full object-cover w-full h-full"
           />
+
           {isFounder && splashed && (
             <span className="absolute -bottom-1 -right-1 text-lg sm:text-xl animate-bounce-slow">
               😊
@@ -122,18 +131,23 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 
         {/* Name */}
         <div
-          className="font-bold text-stone-800 leading-tight text-center"
+          className={`
+            font-bold text-stone-800 leading-tight text-center
+            ${isFounder ? "text-base sm:text-lg mb-1" : "text-xs sm:text-sm"}
+          `}
           style={{ fontFamily: "'Georgia', serif" }}
         >
           {member.name}
         </div>
 
+        {/* Founder label */}
         {isFounder && (
           <div className="text-emerald-700 font-semibold text-[10px] sm:text-xs tracking-widest uppercase mb-1">
             Founder of Kulinji&apos;s Generation
           </div>
         )}
 
+        {/* Dates */}
         <div className="text-[10px] sm:text-xs text-stone-500 font-light">
           {member.birthYear ? `b. ${member.birthYear}` : ""}
           {member.deathYear ? ` – d. ${member.deathYear}` : ""}
