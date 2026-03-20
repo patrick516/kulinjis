@@ -220,8 +220,9 @@ const Gallery: React.FC = () => {
               </div>
 
               {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+              {/* Always-visible overlay (was hover-only) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/10 to-transparent flex items-end p-3">
+                <div>
                   {item.title && (
                     <p className="text-white text-sm font-medium leading-tight">
                       {item.title}
