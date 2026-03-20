@@ -5,8 +5,10 @@ import TreeNode from "./TreeNode";
 import TreeBranch from "./TreeBranch";
 
 const ClanTree: React.FC = () => {
-  const rootMembers = clanMembers.filter((m) => !m.parentId);
-  const founder = rootMembers[0];
+  // Founder is the root — no parentId
+  const founder = clanMembers.find((m) => !m.parentId);
+
+  if (!founder) return null;
 
   return (
     <section
@@ -19,20 +21,11 @@ const ClanTree: React.FC = () => {
       {/* Scrollable Tree Content */}
       <div
         className="
-        relative
-        z-10
-        flex
-        flex-col
-        items-center
-        w-full
-        px-4
-        sm:px-6
-        md:px-10
-        lg:px-16
-        py-16
-      "
+          relative z-10 flex flex-col items-center w-full
+          px-4 sm:px-6 md:px-10 lg:px-16 py-16
+        "
       >
-        {/* Title Section */}
+        {/* Title */}
         <div className="mb-12 text-center max-w-2xl">
           <h2
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-4"
@@ -40,7 +33,6 @@ const ClanTree: React.FC = () => {
           >
             Our Clan Heritage
           </h2>
-
           <div className="flex items-center justify-center gap-4">
             <div className="w-10 sm:w-14 h-[2px] bg-emerald-400 rounded-full" />
             <span className="text-emerald-300 text-xs sm:text-sm tracking-widest uppercase">
@@ -51,24 +43,16 @@ const ClanTree: React.FC = () => {
         </div>
 
         {/* Tree Container */}
-        <div
-          className="
-          w-full
-          max-w-[1400px]
-          flex
-          flex-col
-          items-center
-        "
-        >
-          {/* Founder */}
+        <div className="w-full max-w-[1400px] flex flex-col items-center">
+          {/* Generation 0 — Founder */}
           <div className="flex flex-col items-center mb-6">
             <TreeNode member={founder} index={0} isFounder delay={200} />
-
-            {/* Main trunk line */}
+            {/* Trunk line down to first generation */}
             <div className="w-[2px] h-10 bg-emerald-400/60 rounded-full mt-2" />
           </div>
 
-          {/* Descendants */}
+          {/* Generation 1 — February, Thomson, Unknown Son
+              and all subsequent generations recursively */}
           <TreeBranch
             members={clanMembers}
             parentId={founder.id}
@@ -76,8 +60,6 @@ const ClanTree: React.FC = () => {
           />
         </div>
       </div>
-
-      {/* Animations */}
     </section>
   );
 };

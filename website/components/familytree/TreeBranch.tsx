@@ -147,7 +147,6 @@ const TreeBranch: React.FC<TreeBranchProps> = ({
                 nodeRefs.current[idx] = el;
               }}
             >
-              // In TreeBranch.tsx — find this line in children.map():
               <TreeNode
                 member={child}
                 index={globalIndex}
