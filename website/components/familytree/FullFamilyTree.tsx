@@ -7,28 +7,29 @@ import TreeBranch from "./TreeBranch";
 
 const FullFamilyTree: React.FC = () => {
   const founder = fullClanMembers.find((m) => !m.parentId);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [founderExpanded, setFounderExpanded] = useState(false);
 
   if (!founder) return null;
 
-  // Stats
+  // ── Stats ────────────────────────────────────────────────────────────────
   const totalMembers = fullClanMembers.length;
-  const generations =
-    Math.max(
-      ...fullClanMembers.map((m) => {
-        let depth = 0;
-        let current = m;
-        while (current.parentId) {
-          current =
-            fullClanMembers.find((x) => x.id === current.parentId) || current;
-          depth++;
-          if (depth > 20) break;
-        }
-        return depth;
-      }),
-    ) + 1;
 
-  // Legend entries
+  const getDepth = (memberId: number): number => {
+    let depth = 0;
+    let currentId: number | undefined = memberId;
+    while (currentId) {
+      const parent = fullClanMembers.find((x) => x.id === currentId);
+      currentId = parent?.parentId;
+      if (currentId) depth++;
+      if (depth > 20) break;
+    }
+    return depth;
+  };
+
+  const generations =
+    Math.max(...fullClanMembers.map((m) => getDepth(m.id))) + 1;
+
+  // ── Legend ───────────────────────────────────────────────────────────────
   const legendEntries = Array.from(
     { length: Math.min(generations, 5) },
     (_, i) => ({
@@ -47,7 +48,7 @@ const FullFamilyTree: React.FC = () => {
       <div className="absolute inset-0 bg-stone-900/55 backdrop-blur-[2px]" />
 
       <div className="relative z-10 flex flex-col items-center w-full px-4 sm:px-6 md:px-10 lg:px-16 py-16">
-        {/* Header */}
+        {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="mb-10 text-center max-w-2xl">
           <p className="text-xs tracking-[0.22em] uppercase text-emerald-400 font-semibold mb-3">
             Full Genealogical Record
@@ -79,9 +80,7 @@ const FullFamilyTree: React.FC = () => {
                 Members
               </div>
             </div>
-
             <div className="hidden xs:block w-px h-8 bg-stone-600" />
-
             <div className="min-w-[60px]">
               <div
                 className="text-lg sm:text-xl font-bold text-emerald-400"
@@ -93,9 +92,7 @@ const FullFamilyTree: React.FC = () => {
                 Generations
               </div>
             </div>
-
             <div className="hidden xs:block w-px h-8 bg-stone-600" />
-
             <div className="min-w-[60px]">
               <div
                 className="text-lg sm:text-xl font-bold text-emerald-400 truncate max-w-[100px] sm:max-w-none"
@@ -110,9 +107,9 @@ const FullFamilyTree: React.FC = () => {
           </div>
         </div>
 
-        {/* Tree */}
+        {/* ── Tree ────────────────────────────────────────────────────────── */}
         <div className="w-full max-w-[1600px] flex flex-col items-center">
-          {/* Founder node */}
+          {/* Founder — clicking toggles the entire tree below */}
           <TreeNode
             member={founder}
             index={0}
@@ -120,21 +117,98 @@ const FullFamilyTree: React.FC = () => {
             generation={0}
             delay={200}
             hasChildren={fullClanMembers.some((m) => m.parentId === founder.id)}
-            onToggle={(id) => setSelectedId(selectedId === id ? null : id)}
-            expanded={selectedId === founder.id}
+            onToggle={() => setFounderExpanded((prev) => !prev)}
+            expanded={founderExpanded}
           />
 
-          {/* All descendants — TreeBranch handles every generation recursively */}
-          <TreeBranch
-            members={fullClanMembers}
-            parentId={founder.id}
-            startIndex={1}
-            depth={0}
-            generation={1}
-          />
+          {/*
+            When founder is expanded, TreeBranch recursively renders
+            every generation in this order:
+
+            Gen 1 ── February Kulinji, Thomson Kulinji, Unknown Son
+
+            Gen 2 (February's children)
+                    Robert, Grace, Andra, Elina, David, Idess, Nokh, Moses
+
+            Gen 2 (Thomson's children)
+                    Mayilosi, Lice, Falesi, Offesi, Martha, Agness
+
+            Gen 3 (Robert's child)
+                    Micah (Mrs Moyo)  ← only survivor of 14
+
+            Gen 3 (Andra's children)
+                    Noliah, Piyason, Chimwemwe
+
+            Gen 3 (David's surviving children)
+                    Sonya, Joyce, Grace
+
+            Gen 3 (Mayilosi's children — first wife)
+                    Harry, Paul, Fostino, Doliya, Falumesi
+            Gen 3 (Mayilosi's children — second wife Lucy/Mataka)
+                    Lucy (Mataka), Redison (died young)
+
+            Gen 4 (Harry's children across 4 wives)
+                    Wife 1 Matalia → Chrisy, Stevelia, Falesi
+                    Wife 2         → Agness
+                    Wife 3 Mulanje → Thomson
+                    Wife 4 Lilongwe→ Ndiuzayani
+
+            Gen 4 (Matalia's children with Chingaphonyg)
+                    Esinala (died), Lenard, Charmaine (Alex),
+                    Robin, Fatima (died young), Edina (Police Super)
+
+            Gen 4 (Paul's children — wife 1 Mary)
+                    Maguleti, Vayleti, Towera, Pilirani, Maloto,
+                    Ndaona, Jamikani, Lonjezo
+            Gen 4 (Paul's children — wife 2 Felister)
+                    Mabvuto, Regina, Innocent
+            Gen 4 (Paul's children — wife 3 unknown)
+                    Stewart, Chrissy
+            Gen 4 (Paul direct)
+                    Shoni, Faith
+
+            Gen 4 (Fostino's children)
+                    Telezia, Mania, Steliya
+                    Second wife child: Nkonkha
+
+            Gen 4 (Doliya's children with Kamwingo — Thyolo, Khonjeni)
+                    Gomola, Pilirani
+
+            Gen 4 (Falumesi's child with Chipolopolo — Bangula)
+                    Jana
+
+            Gen 4 (Lucy/Mataka's children)
+                    Samuel (died), Chabuka, Malia,
+                    Ndariona (Christo), Samuel, Aubrey
+
+            Gen 5 (Paul's grandchildren via his children)
+                    Maguleti → James
+                    Vayleti  → Faith, Junior (Patrice)
+                    Towera   → Ongani, Diana, Kenneth
+                    Pilirani → Leah
+                    Maloto   → Tadala, Mayamiko
+                    Ndaona   → Wezi, Shamim
+                    Jamikani → Kelvin, Jarcho, Chipiliro
+                    Lonjezo  → Nthouzi
+
+            Gen 5 (Fostino's grandchildren)
+                    Telezia → Chimwemwe, Chikondi
+                    Mania   → Fostino, Eliza, Chikumbukutso
+                    Steliya → Chrissy, Catherine, Ivy,
+                               Mwayiwalo, Hamanson, Faith
+          */}
+          {founderExpanded && (
+            <TreeBranch
+              members={fullClanMembers}
+              parentId={founder.id}
+              startIndex={1}
+              depth={0}
+              generation={1}
+            />
+          )}
         </div>
 
-        {/* Generation color legend */}
+        {/* ── Generation color legend ──────────────────────────────────────── */}
         <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
           {legendEntries.map(({ gen, label, colors }) => (
             <div
