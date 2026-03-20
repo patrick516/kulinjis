@@ -109,7 +109,7 @@ const FullFamilyTree: React.FC = () => {
 
         {/* ── Tree ────────────────────────────────────────────────────────── */}
         <div className="w-full max-w-[1600px] flex flex-col items-center">
-          {/* Founder — clicking toggles the entire tree below */}
+          {/* Founder node */}
           <TreeNode
             member={founder}
             index={0}
@@ -122,80 +122,104 @@ const FullFamilyTree: React.FC = () => {
           />
 
           {/*
-            When founder is expanded, TreeBranch recursively renders
-            every generation in this order:
+            Full tree map — all 125 members across 5 generations:
 
-            Gen 1 ── February Kulinji, Thomson Kulinji, Unknown Son
+            GEN 1
+              February Kulinji (Hunter)
+              Thomson Kulinji  (Fisherman → Ngona village)
+              Unknown Son
 
-            Gen 2 (February's children)
-                    Robert, Grace, Andra, Elina, David, Idess, Nokh, Moses
+            GEN 2 — February's children
+              Robert, Grace, Andra, Elina, David, Idess, Nokh, Moses
 
-            Gen 2 (Thomson's children)
-                    Mayilosi, Lice, Falesi, Offesi, Martha, Agness
+            GEN 2 — Thomson's children
+              Mayilosi, Lice, Falesi, Offesi, Martha, Agness
 
-            Gen 3 (Robert's child)
-                    Micah (Mrs Moyo)  ← only survivor of 14
+            GEN 3 — Robert's child
+              Micah (Mrs Moyo)  ← only survivor of 14
 
-            Gen 3 (Andra's children)
-                    Noliah, Piyason, Chimwemwe
+            GEN 3 — Andra's children
+              Noliah, Piyason, Chimwemwe
 
-            Gen 3 (David's surviving children)
-                    Sonya, Joyce, Grace
+            GEN 3 — David's surviving children
+              Sonya, Joyce, Grace
 
-            Gen 3 (Mayilosi's children — first wife)
-                    Harry, Paul, Fostino, Doliya, Falumesi
-            Gen 3 (Mayilosi's children — second wife Lucy/Mataka)
-                    Lucy (Mataka), Redison (died young)
+            GEN 3 — Mayilosi's children (first wife)
+              Harry, Paul, Fostino, Doliya, Falumesi
+            GEN 3 — Mayilosi's children (second wife)
+              Lucy (Mataka), Redison (died young)
 
-            Gen 4 (Harry's children across 4 wives)
-                    Wife 1 Matalia → Chrisy, Stevelia, Falesi
-                    Wife 2         → Agness
-                    Wife 3 Mulanje → Thomson
-                    Wife 4 Lilongwe→ Ndiuzayani
+            GEN 3 — Lice's children
+              Kulima, Steveliya
 
-            Gen 4 (Matalia's children with Chingaphonyg)
-                    Esinala (died), Lenard, Charmaine (Alex),
-                    Robin, Fatima (died young), Edina (Police Super)
+            GEN 3 — Offesi's children
+              Hastings, Christina, Evason, Lingstone,
+              Patrick, Rozi (died young), Charles,
+              Patricia, Kulinji, Lidia
 
-            Gen 4 (Paul's children — wife 1 Mary)
-                    Maguleti, Vayleti, Towera, Pilirani, Maloto,
-                    Ndaona, Jamikani, Lonjezo
-            Gen 4 (Paul's children — wife 2 Felister)
-                    Mabvuto, Regina, Innocent
-            Gen 4 (Paul's children — wife 3 unknown)
-                    Stewart, Chrissy
-            Gen 4 (Paul direct)
-                    Shoni, Faith
+            GEN 4 — Harry's children (4 wives)
+              Wife 1 Matalia  → Chrisy, Stevelia, Falesi
+              Wife 2          → Agness
+              Wife 3 Mulanje  → Thomson
+              Wife 4 Lilongwe → Ndiuzayani
 
-            Gen 4 (Fostino's children)
-                    Telezia, Mania, Steliya
-                    Second wife child: Nkonkha
+            GEN 4 — Matalia's children (married Chingaphonyg)
+              Esinala (died), Lenard, Charmaine (Alex),
+              Robin, Fatima (died young), Edina (Police Super)
 
-            Gen 4 (Doliya's children with Kamwingo — Thyolo, Khonjeni)
-                    Gomola, Pilirani
+            GEN 4 — Paul's children
+              Wife 1 Mary     → Maguleti, Vayleti, Towera, Pilirani,
+                                 Maloto, Ndaona, Jamikani, Lonjezo
+              Wife 2 Felister → Mabvuto, Regina, Innocent
+              Wife 3 unknown  → Stewart, Chrissy
+              Direct          → Shoni, Faith
 
-            Gen 4 (Falumesi's child with Chipolopolo — Bangula)
-                    Jana
+            GEN 4 — Fostino's children
+              Telezia, Mania, Steliya, Nkonkha (2nd wife)
 
-            Gen 4 (Lucy/Mataka's children)
-                    Samuel (died), Chabuka, Malia,
-                    Ndariona (Christo), Samuel, Aubrey
+            GEN 4 — Doliya's children (husband Kamwingo, Thyolo-Khonjeni)
+              Gomola, Pilirani
 
-            Gen 5 (Paul's grandchildren via his children)
-                    Maguleti → James
-                    Vayleti  → Faith, Junior (Patrice)
-                    Towera   → Ongani, Diana, Kenneth
-                    Pilirani → Leah
-                    Maloto   → Tadala, Mayamiko
-                    Ndaona   → Wezi, Shamim
-                    Jamikani → Kelvin, Jarcho, Chipiliro
-                    Lonjezo  → Nthouzi
+            GEN 4 — Falumesi's child (husband Chipolopolo, Bangula)
+              Jana
 
-            Gen 5 (Fostino's grandchildren)
-                    Telezia → Chimwemwe, Chikondi
-                    Mania   → Fostino, Eliza, Chikumbukutso
-                    Steliya → Chrissy, Catherine, Ivy,
-                               Mwayiwalo, Hamanson, Faith
+            GEN 4 — Lucy (Mataka)'s children
+              Samuel (died), Chabuka, Malia,
+              Ndariona (Christo), Samuel, Aubrey
+
+            GEN 4 — Hastings's child (Offesi branch)
+              Patricia (currently in Lilongwe)
+
+            GEN 4 — Patrick's children (Offesi branch)
+              Yamikani, Paul, Hastings (died young)
+
+            GEN 4 — Charles's child (Offesi branch)
+              Yohani (Fakeni)
+
+            GEN 4 — Lingstone's children (Offesi branch)
+              Thomson (children pending), James,
+              Patrick, Gloria, Catherine, Ndaona
+
+            GEN 5 — Paul's grandchildren via his children
+              Maguleti → James
+              Vayleti  → Faith, Junior (Patrice)
+              Towera   → Ongani, Diana, Kenneth
+              Pilirani → Leah
+              Maloto   → Tadala, Mayamiko
+              Ndaona   → Wezi, Shamim
+              Jamikani → Kelvin, Jarcho, Chipiliro
+              Lonjezo  → Nthouzi
+
+            GEN 5 — Fostino's grandchildren
+              Telezia → Chimwemwe, Chikondi
+              Mania   → Fostino, Eliza, Chikumbukutso
+              Steliya → Chrissy, Catherine, Ivy,
+                         Mwayiwalo, Hamanson, Faith
+
+            GEN 5 — Lingstone's grandchildren (Offesi branch)
+              James     → Elijah, Beatrice
+              Gloria    → Shanilla (Shakinah)
+              Catherine → Precious
           */}
           {founderExpanded && (
             <TreeBranch
@@ -208,7 +232,7 @@ const FullFamilyTree: React.FC = () => {
           )}
         </div>
 
-        {/* ── Generation color legend ──────────────────────────────────────── */}
+        {/* ── Generation colour legend ─────────────────────────────────────── */}
         <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
           {legendEntries.map(({ gen, label, colors }) => (
             <div

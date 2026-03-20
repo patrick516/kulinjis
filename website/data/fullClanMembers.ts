@@ -5,6 +5,7 @@ export interface FullClanMember {
   birthYear?: number;
   deathYear?: number;
   notes?: string;
+  photo?: string;
 }
 
 export const fullClanMembers: FullClanMember[] = [
@@ -111,7 +112,7 @@ export const fullClanMembers: FullClanMember[] = [
   { id: 44, name: "Edina", parentId: 33, notes: "Police Super" },
 
   // ── Children of Paul (wife 1 — Mary) ────────────────────────────────────
-  { id: 45, name: "Maguleti", parentId: 27 },
+  { id: 45, name: "Magret", parentId: 27 },
   { id: 46, name: "Vayleti", parentId: 27 },
   { id: 47, name: "Towera", parentId: 27 },
   { id: 48, name: "Pilirani", parentId: 27 },
@@ -196,4 +197,51 @@ export const fullClanMembers: FullClanMember[] = [
   { id: 96, name: "Ndariona (Christo)", parentId: 31 },
   { id: 97, name: "Samuel", parentId: 31 },
   { id: 98, name: "Aubrey", parentId: 31 },
+  { id: 99, name: "Hastings", parentId: 23 },
+  { id: 100, name: "Christina", parentId: 23 },
+  { id: 101, name: "Evason", parentId: 23, notes: "Boy" },
+  { id: 102, name: "Lingstone", parentId: 23 },
+  { id: 103, name: "Patrick", parentId: 23 },
+  { id: 104, name: "Rozi", parentId: 23, notes: "Died while young" },
+  { id: 105, name: "Charles", parentId: 23 },
+  { id: 106, name: "Patricia", parentId: 23 },
+  { id: 107, name: "Kulinji", parentId: 23 },
+  { id: 108, name: "Lidia", parentId: 23 },
+
+  // ── LICE (id:21 in fullClanMembers — child of Thomson id:3) ───────────────
+  // Children of Lice
+  { id: 109, name: "Kulima", parentId: 21 },
+  { id: 110, name: "Steveliya", parentId: 21 },
+
+  // ── HASTINGS (id:99 — child of Offesi) ───────────────────────────────────
+  { id: 111, name: "Patricia", parentId: 99, notes: "Currently in Lilongwe" },
+
+  // ── PATRICK (id:103 — child of Offesi) ───────────────────────────────────
+  { id: 112, name: "Yamikani", parentId: 103 },
+  { id: 113, name: "Paul", parentId: 103 },
+  { id: 114, name: "Hastings", parentId: 103, notes: "Died while young" },
+
+  // ── CHARLES (id:105 — child of Offesi) ───────────────────────────────────
+  { id: 115, name: "Yohani (Fakeni)", parentId: 105 },
+
+  // ── LINGSTONE (id:102 — child of Offesi) ─────────────────────────────────
+  { id: 116, name: "Thomson", parentId: 102 },
+  { id: 117, name: "James", parentId: 102 },
+  { id: 118, name: "Patrick", parentId: 102 },
+  { id: 119, name: "Gloria", parentId: 102 },
+  { id: 120, name: "Catherine", parentId: 102 },
+  { id: 121, name: "Ndaona", parentId: 102 },
+
+  // ── JAMES (id:117 — child of Lingstone) ──────────────────────────────────
+  { id: 122, name: "Elijah", parentId: 117 },
+  { id: 123, name: "Beatrice", parentId: 117 },
+
+  // ── GLORIA (id:119 — child of Lingstone) ─────────────────────────────────
+  { id: 124, name: "Shanilla (Shakinah)", parentId: 119 },
+
+  // ── CATHERINE (id:120 — child of Lingstone) ──────────────────────────────
+  { id: 125, name: "Precious", parentId: 120 },
+
+  // ── THOMSON (id:116 — child of Lingstone) ────────────────────────────────
+  // NOTE: Thomson's children not y
 ];

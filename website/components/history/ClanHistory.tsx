@@ -24,12 +24,14 @@ const Section = ({ title, children }: SectionProps) => (
   <div style={{ marginBottom: "2rem" }}>
     <h2
       style={{
-        fontSize: "1.25rem",
+        fontSize: "clamp(1.5rem, 3vw, 1.9rem)",
         fontWeight: 500,
         color: "#0F6E56",
         borderBottom: "1px solid #9FE1CB",
         paddingBottom: "0.4rem",
         marginBottom: "0.75rem",
+        fontFamily: "'Playfair Display', Georgia, serif",
+        letterSpacing: "0.01em",
       }}
     >
       {title}
@@ -52,7 +54,7 @@ const PersonCard = ({
         background: accent,
         border: `1px solid ${border}`,
         borderRadius: "10px",
-        padding: "0.75rem 1rem",
+        padding: "0.95rem 1.2rem",
         marginBottom: "0.75rem",
         cursor: children ? "pointer" : "default",
       }}
@@ -66,15 +68,34 @@ const PersonCard = ({
         }}
       >
         <span
-          style={{ fontWeight: 500, color: "#085041", fontSize: "0.95rem" }}
+          style={{
+            fontWeight: 600,
+            color: "#085041",
+            fontSize: "clamp(1.15rem, 2.5vw, 1.35rem)",
+            fontFamily: "'Playfair Display', Georgia, serif",
+          }}
         >
           {name}
         </span>
         {detail && (
-          <span style={{ fontSize: "0.8rem", color: "#0F6E56" }}>{detail}</span>
+          <span
+            style={{
+              fontSize: "clamp(1rem, 2vw, 1.1rem)",
+              color: "#0F6E56",
+              fontFamily: "'Lora', Georgia, serif",
+            }}
+          >
+            {detail}
+          </span>
         )}
         {children && (
-          <span style={{ fontSize: "0.75rem", color: "#1D9E75" }}>
+          <span
+            style={{
+              fontSize: "clamp(0.95rem, 1.8vw, 1.05rem)",
+              color: "#1D9E75",
+              fontFamily: "'Lora', Georgia, serif",
+            }}
+          >
             {open ? "▲ hide" : "▼ show"}
           </span>
         )}
@@ -95,13 +116,20 @@ const PersonCard = ({
 };
 
 const Row = ({ label, value }: RowProps) => (
-  <p style={{ margin: "0.25rem 0", fontSize: "0.88rem", color: "#085041" }}>
-    <span style={{ fontWeight: 500 }}>{label}: </span>
+  <p
+    style={{
+      margin: "0.35rem 0",
+      fontSize: "clamp(1.05rem, 2vw, 1.18rem)",
+      color: "#085041",
+      fontFamily: "'Lora', Georgia, serif",
+      lineHeight: 1.7,
+    }}
+  >
+    <span style={{ fontWeight: 600 }}>{label}: </span>
     <span style={{ color: "#04342C" }}>{value}</span>
   </p>
 );
 
-// Reusable nested sub-card (dashed border, cream bg)
 const SubCard = ({
   title,
   children,
@@ -114,16 +142,17 @@ const SubCard = ({
       background: "#fdfaf6",
       border: "1px dashed #9FE1CB",
       borderRadius: "8px",
-      padding: "0.6rem 0.8rem",
+      padding: "0.75rem 1rem",
       marginBottom: "0.5rem",
     }}
   >
     <p
       style={{
-        fontWeight: 500,
+        fontWeight: 600,
         color: "#085041",
-        fontSize: "0.88rem",
+        fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
         marginBottom: "0.3rem",
+        fontFamily: "'Playfair Display', Georgia, serif",
       }}
     >
       {title}
@@ -133,7 +162,15 @@ const SubCard = ({
 );
 
 const Sub = ({ children }: { children: React.ReactNode }) => (
-  <p style={{ fontSize: "0.82rem", color: "#04342C", margin: "0.15rem 0" }}>
+  <p
+    style={{
+      fontSize: "clamp(1rem, 1.9vw, 1.12rem)",
+      color: "#04342C",
+      margin: "0.25rem 0",
+      fontFamily: "'Lora', Georgia, serif",
+      lineHeight: 1.75,
+    }}
+  >
     {children}
   </p>
 );
@@ -144,24 +181,39 @@ export default function ClanHistory() {
       style={{
         minHeight: "100vh",
         background: "#fdfaf6",
-        padding: "2.5rem 1.5rem",
-        fontFamily: "Georgia, serif",
+        padding: "clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 1.5rem)",
+        fontFamily: "'Lora', Georgia, serif",
       }}
     >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+      `}</style>
+
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <h1
             style={{
-              fontSize: "2rem",
-              fontWeight: 500,
+              fontSize: "clamp(2.2rem, 6vw, 3.2rem)",
+              fontWeight: 600,
               color: "#04342C",
               marginBottom: "0.3rem",
+              fontFamily: "'Playfair Display', Georgia, serif",
+              letterSpacing: "0.02em",
+              lineHeight: 1.2,
             }}
           >
             Tribe of <span style={{ color: "#1D9E75" }}>Kulinji</span>
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "#0F6E56" }}>
+          <p
+            style={{
+              fontSize: "clamp(1.05rem, 2.2vw, 1.25rem)",
+              color: "#0F6E56",
+              fontFamily: "'Lora', Georgia, serif",
+              fontStyle: "italic",
+              marginTop: "0.4rem",
+            }}
+          >
             Genealogical record — origin, migration, and descendants
           </p>
           <div
@@ -176,7 +228,14 @@ export default function ClanHistory() {
 
         {/* ── Origin ─────────────────────────────────────────────────────── */}
         <Section title="Origin of the Tribe">
-          <p style={{ fontSize: "0.93rem", color: "#04342C", lineHeight: 1.7 }}>
+          <p
+            style={{
+              fontSize: "clamp(1.05rem, 2.2vw, 1.2rem)",
+              color: "#04342C",
+              lineHeight: 1.85,
+              fontFamily: "'Lora', Georgia, serif",
+            }}
+          >
             The Kulinji tribe originated from <em>Mozambique</em>. Three Kulinji
             men migrated to Malawi and settled in <em>Chididi</em>.
           </p>
@@ -193,17 +252,25 @@ export default function ClanHistory() {
                 background: "#E1F5EE",
                 border: "1px solid #9FE1CB",
                 borderRadius: "8px",
-                padding: "0.6rem 1rem",
+                padding: "0.75rem 1rem",
               }}
             >
-              <span style={{ fontWeight: 500, color: "#085041" }}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: "#085041",
+                  fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                }}
+              >
                 February Kulinji
               </span>
               <span
                 style={{
-                  fontSize: "0.82rem",
+                  fontSize: "clamp(0.98rem, 1.9vw, 1.1rem)",
                   color: "#0F6E56",
                   marginLeft: "0.75rem",
+                  fontFamily: "'Lora', Georgia, serif",
                 }}
               >
                 Hunter
@@ -214,17 +281,25 @@ export default function ClanHistory() {
                 background: "#E1F5EE",
                 border: "1px solid #9FE1CB",
                 borderRadius: "8px",
-                padding: "0.6rem 1rem",
+                padding: "0.75rem 1rem",
               }}
             >
-              <span style={{ fontWeight: 500, color: "#085041" }}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: "#085041",
+                  fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                }}
+              >
                 Thomson Kulinji
               </span>
               <span
                 style={{
-                  fontSize: "0.82rem",
+                  fontSize: "clamp(0.98rem, 1.9vw, 1.1rem)",
                   color: "#0F6E56",
                   marginLeft: "0.75rem",
+                  fontFamily: "'Lora', Georgia, serif",
                 }}
               >
                 Fisherman — moved Chididi → Chazuka (Green Ntafia) → Ngona
@@ -236,17 +311,26 @@ export default function ClanHistory() {
                 background: "#F1EFE8",
                 border: "1px solid #D3D1C7",
                 borderRadius: "8px",
-                padding: "0.6rem 1rem",
+                padding: "0.75rem 1rem",
               }}
             >
-              <span style={{ fontWeight: 500, color: "#444441" }}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: "#444441",
+                  fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                }}
+              >
                 Third brother
               </span>
               <span
                 style={{
-                  fontSize: "0.82rem",
+                  fontSize: "clamp(0.98rem, 1.9vw, 1.1rem)",
                   color: "#5F5E5A",
                   marginLeft: "0.75rem",
+                  fontFamily: "'Lora', Georgia, serif",
+                  fontStyle: "italic",
                 }}
               >
                 Name not known
@@ -259,9 +343,11 @@ export default function ClanHistory() {
         <Section title="February Kulinji — Children & Descendants">
           <p
             style={{
-              fontSize: "0.85rem",
+              fontSize: "clamp(1rem, 2vw, 1.12rem)",
               color: "#0F6E56",
               marginBottom: "0.75rem",
+              fontFamily: "'Lora', Georgia, serif",
+              fontStyle: "italic",
             }}
           >
             Click a name to expand descendants.
@@ -298,9 +384,10 @@ export default function ClanHistory() {
         <Section title="Thomson Kulinji — Children & Descendants">
           <p
             style={{
-              fontSize: "0.85rem",
+              fontSize: "clamp(1rem, 2vw, 1.12rem)",
               color: "#0F6E56",
               marginBottom: "0.75rem",
+              fontFamily: "'Lora', Georgia, serif",
             }}
           >
             Thomson had six children: Mayilosi, Lice, Falesi, Offesi, Martha,
@@ -311,9 +398,11 @@ export default function ClanHistory() {
           <PersonCard name="Mayilosi" detail="Multiple wives">
             <p
               style={{
-                fontSize: "0.85rem",
+                fontSize: "clamp(1.02rem, 2vw, 1.15rem)",
                 color: "#085041",
                 marginBottom: "0.5rem",
+                fontFamily: "'Lora', Georgia, serif",
+                lineHeight: 1.7,
               }}
             >
               Children from first wife:{" "}
@@ -321,9 +410,11 @@ export default function ClanHistory() {
             </p>
             <p
               style={{
-                fontSize: "0.85rem",
+                fontSize: "clamp(1.02rem, 2vw, 1.15rem)",
                 color: "#085041",
                 marginBottom: "0.5rem",
+                fontFamily: "'Lora', Georgia, serif",
+                lineHeight: 1.7,
               }}
             >
               From second wife (Lucy / Mataka): see below. Another son,{" "}
@@ -354,8 +445,10 @@ export default function ClanHistory() {
               <div
                 style={{
                   marginTop: "0.4rem",
-                  fontSize: "0.8rem",
+                  fontSize: "clamp(0.98rem, 1.9vw, 1.1rem)",
                   color: "#0F6E56",
+                  fontFamily: "'Lora', Georgia, serif",
+                  lineHeight: 1.8,
                 }}
               >
                 <p style={{ margin: "0.1rem 0" }}>Maguleti → James</p>
@@ -435,8 +528,10 @@ export default function ClanHistory() {
               <div
                 style={{
                   marginTop: "0.4rem",
-                  fontSize: "0.8rem",
+                  fontSize: "clamp(0.98rem, 1.9vw, 1.1rem)",
                   color: "#0F6E56",
+                  fontFamily: "'Lora', Georgia, serif",
+                  lineHeight: 1.8,
                 }}
               >
                 <p style={{ margin: "0.1rem 0" }}>James → Elijah, Beatrice</p>
@@ -484,9 +579,10 @@ export default function ClanHistory() {
           <ol
             style={{
               paddingLeft: "1.2rem",
-              fontSize: "0.9rem",
+              fontSize: "clamp(1.05rem, 2.2vw, 1.2rem)",
               color: "#04342C",
-              lineHeight: 2,
+              lineHeight: 2.2,
+              fontFamily: "'Lora', Georgia, serif",
             }}
           >
             <li>Originated in Mozambique</li>
@@ -509,7 +605,14 @@ export default function ClanHistory() {
             marginTop: "1rem",
           }}
         >
-          <p style={{ fontSize: "0.78rem", color: "#0F6E56" }}>
+          <p
+            style={{
+              fontSize: "clamp(0.95rem, 1.8vw, 1.05rem)",
+              color: "#0F6E56",
+              fontFamily: "'Lora', Georgia, serif",
+              fontStyle: "italic",
+            }}
+          >
             Clan record — Tribe of Kulinji · Originally from Mozambique
           </p>
         </div>
