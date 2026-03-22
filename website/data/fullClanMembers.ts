@@ -225,7 +225,7 @@ export const fullClanMembers: FullClanMember[] = [
   { id: 115, name: "Yohani (Fakeni)", parentId: 105 },
 
   // ── LINGSTONE (id:102 — child of Offesi) ─────────────────────────────────
-  { id: 116, name: "Thomson", parentId: 102 },
+  { id: 116, name: "Thomas", parentId: 102 },
   { id: 117, name: "James", parentId: 102 },
   { id: 118, name: "Patrick", parentId: 102 },
   { id: 119, name: "Gloria", parentId: 102 },
